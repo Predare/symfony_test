@@ -19,9 +19,6 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column]
-    private ?int $isbn = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $pageCount = null;
 
@@ -43,6 +40,12 @@ class Book
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'books')]
     private Collection $categories;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $shortDescription = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $isbn = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -61,18 +64,6 @@ class Book
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getIsbn(): ?int
-    {
-        return $this->isbn;
-    }
-
-    public function setIsbn(int $isbn): static
-    {
-        $this->isbn = $isbn;
 
         return $this;
     }
@@ -166,9 +157,44 @@ class Book
         return $this;
     }
 
+    public function setCategories(Collection $categories): static
+    {
+        $this -> categories = $categories;
+        return $this;
+    }
+
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(?string $shortDescription): static
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    public function getIsbn(): ?string
+    {
+        return $this->isbn;
+    }
+
+    public function setIsbn(string $isbn): static
+    {
+        $this->isbn = $isbn;
 
         return $this;
     }

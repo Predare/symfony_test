@@ -39,6 +39,19 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Category[] Returns an array of Book objects
+    */
+    public function findByTitle($value): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.title = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */
